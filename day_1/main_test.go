@@ -7,37 +7,40 @@ import (
 )
 
 func TestPassword(t *testing.T) {
-	t.Run("Example", func(t *testing.T) {
-		t.Parallel()
+	tt := []struct {
+		name string
+		in   string
+		out  int
+	}{
+		{
+			name: "Example",
+			in:   "example.txt",
+			out:  3,
+		},
+		{
+			name: "Input",
+			in:   "input.txt",
+			out:  1182,
+		},
+	}
 
-		lines, err := aoc.ReadLines(filepath.Join("testdata", "example.txt"))
-		if err != nil {
-			t.Fatal(err)
-		}
+	for _, test := range tt {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
 
-		password, err := Password(lines)
-		if err != nil {
-			t.Fatal(err)
-		}
+			lines, err := aoc.ReadLines(filepath.Join("testdata", test.in))
+			if err != nil {
+				t.Fatal(err)
+			}
 
-		if password != 3 {
-			t.Fatalf("got %d, want %d", password, 3)
-		}
-	})
+			password, err := Password(lines)
+			if err != nil {
+				t.Fatal(err)
+			}
 
-	t.Run("Input", func(t *testing.T) {
-		t.Parallel()
-
-		lines, err := aoc.ReadLines(filepath.Join("testdata", "input.txt"))
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		password, err := Password(lines)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		t.Logf("got %d", password)
-	})
+			if got, want := password, test.out; got != want {
+				t.Fatalf("got %d, want %d", got, want)
+			}
+		})
+	}
 }

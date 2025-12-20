@@ -25,7 +25,6 @@ func Password(rotations []string) (int, error) {
 
 		if d == "R" {
 			point += c % 100
-
 		}
 
 		if point < 0 {
