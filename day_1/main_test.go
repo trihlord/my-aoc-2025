@@ -44,3 +44,47 @@ func TestPassword(t *testing.T) {
 		})
 	}
 }
+
+func TestPasswordV2(t *testing.T) {
+	tt := []struct {
+		name string
+		in   string
+		out  int
+	}{
+		{
+			name: "Example Short",
+			in:   "example_short.txt",
+			out:  2,
+		},
+		{
+			name: "Example",
+			in:   "example.txt",
+			out:  6,
+		},
+		{
+			name: "Input",
+			in:   "input.txt",
+			out:  6913,
+		},
+	}
+
+	for _, test := range tt {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+
+			lines, err := aoc.ReadLines(filepath.Join("testdata", test.in))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			password, err := PasswordV2(lines)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if got, want := password, test.out; got != want {
+				t.Fatalf("got %d, want %d", got, want)
+			}
+		})
+	}
+}
