@@ -20,19 +20,19 @@ func Password(rotations []string) (int, error) {
 		}
 
 		if d == "L" {
-			point -= c % 100
+			point = point - c
 		}
 
 		if d == "R" {
-			point += c % 100
+			point = point + c
 		}
 
-		if point < 0 {
-			point += 100
-		}
+		m := point % 100
 
-		if point > 99 {
-			point -= 100
+		if m < 0 {
+			point = m + 100
+		} else {
+			point = m
 		}
 
 		if point == 0 {
