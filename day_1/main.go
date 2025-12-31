@@ -14,7 +14,31 @@ func Password(ss []string) (int, error) {
 			return 0, err
 		}
 
-		if dial = ((dial+r)%100 + 100) % 100; dial == 0 {
+		dial, _ = wrap(dial, r)
+
+		if dial == 0 {
+			zeroes++
+		}
+	}
+
+	return zeroes, nil
+}
+
+func PasswordV2(ss []string) (int, error) {
+	zeroes, dial := 0, 50
+
+	for _, s := range ss {
+		r, err := rotation(s)
+		if err != nil {
+			return 0, err
+		}
+
+		d, wraps := wrap(dial, r)
+
+		dial = d
+		zeroes += wraps
+
+		if dial == 0 {
 			zeroes++
 		}
 	}
@@ -38,4 +62,8 @@ func rotation(s string) (int, error) {
 	}
 
 	return c, nil
+}
+
+func wrap(dial int, rotation int) (int, int) {
+	return ((dial+rotation)%100 + 100) % 100, 0
 }
