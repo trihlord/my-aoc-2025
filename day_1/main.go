@@ -1,15 +1,12 @@
 package main
 
-import (
-	"errors"
-	"strconv"
-)
+import "my-aoc-2025/day-1/internal/rotation"
 
 func Password(ss []string) (int, error) {
 	p, d := 0, 50
 
 	for _, s := range ss {
-		r, err := parseRotation(s)
+		r, err := rotation.Parse(s)
 		if err != nil {
 			return 0, err
 		}
@@ -22,22 +19,4 @@ func Password(ss []string) (int, error) {
 	}
 
 	return p, nil
-}
-
-func parseRotation(s string) (int, error) {
-	d := s[0:1]
-	if d != "L" && d != "R" {
-		return 0, errors.New("rotation direction must be L or R")
-	}
-
-	r, err := strconv.Atoi(s[1:])
-	if err != nil {
-		return 0, errors.New("rotation clics must be positive integer")
-	}
-
-	if d == "L" {
-		r *= -1
-	}
-
-	return r, nil
 }
