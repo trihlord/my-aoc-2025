@@ -6,64 +6,60 @@ import (
 )
 
 func Password(ss []string) (int, error) {
-	zeroes, dial := 0, 50
+	p, d := 0, 50
 
 	for _, s := range ss {
-		r, err := rotation(s)
+		r, err := parseRotation(s)
 		if err != nil {
 			return 0, err
 		}
 
-		dial, _ = wrap(dial, r)
+		d = ((d+r)%100 + 100) % 100
 
-		if dial == 0 {
-			zeroes++
+		if d == 0 {
+			p++
 		}
 	}
 
-	return zeroes, nil
+	return p, nil
 }
 
 func PasswordV2(ss []string) (int, error) {
-	zeroes, dial := 0, 50
+	p, d := 0, 50
 
 	for _, s := range ss {
-		r, err := rotation(s)
+		r, err := parseRotation(s)
 		if err != nil {
 			return 0, err
 		}
 
-		d, wraps := wrap(dial, r)
-
-		dial = d
-		zeroes += wraps
-
-		if dial == 0 {
-			zeroes++
+		w := (d + r) / 100
+		if w < 0 {
+			w *= -1
 		}
+
+		d = ((d+r)%100 + 100) % 100
+
+		p += w
 	}
 
-	return zeroes, nil
+	return p, nil
 }
 
-func rotation(s string) (int, error) {
+func parseRotation(s string) (int, error) {
 	d := s[0:1]
 	if d != "L" && d != "R" {
 		return 0, errors.New("rotation direction must be L or R")
 	}
 
-	c, err := strconv.Atoi(s[1:])
+	r, err := strconv.Atoi(s[1:])
 	if err != nil {
 		return 0, errors.New("rotation clics must be positive integer")
 	}
 
 	if d == "L" {
-		c *= -1
+		r *= -1
 	}
 
-	return c, nil
-}
-
-func wrap(dial int, rotation int) (int, int) {
-	return ((dial+rotation)%100 + 100) % 100, 0
+	return r, nil
 }

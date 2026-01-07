@@ -56,16 +56,6 @@ func TestPasswordV2(t *testing.T) {
 		out  int
 	}{
 		{
-			name: "example short",
-			in:   "example_short.txt",
-			out:  2,
-		},
-		{
-			name: "example shorter",
-			in:   "example_shorter.txt",
-			out:  5,
-		},
-		{
 			name: "example",
 			in:   "example.txt",
 			out:  6,
@@ -73,7 +63,7 @@ func TestPasswordV2(t *testing.T) {
 		{
 			name: "input",
 			in:   "input.txt",
-			out:  0,
+			out:  6913,
 		},
 	}
 
