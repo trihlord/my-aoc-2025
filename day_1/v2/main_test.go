@@ -17,12 +17,12 @@ func TestPassword(t *testing.T) {
 		{
 			name: "example",
 			in:   "example.txt",
-			out:  3,
+			out:  6,
 		},
 		{
 			name: "input",
 			in:   "input.txt",
-			out:  1182,
+			out:  6913,
 		},
 	}
 
