@@ -1,4 +1,4 @@
-package aoc
+package file
 
 import (
 	"bufio"

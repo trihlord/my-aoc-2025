@@ -1,7 +1,7 @@
 package main
 
 import (
-	"my-aoc-2025/aoc"
+	"my-aoc-2025/internal/file"
 	"path/filepath"
 	"testing"
 )
@@ -30,7 +30,7 @@ func TestPassword(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 
-			lines, err := aoc.ReadLines(filepath.Join("testdata", test.in))
+			lines, err := file.ReadLines(filepath.Join("testdata", test.in))
 			if err != nil {
 				t.Fatal(err)
 			}

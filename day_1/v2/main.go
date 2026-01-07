@@ -1,6 +1,6 @@
 package main
 
-import "my-aoc-2025/day-1/internal/rotation"
+import "my-aoc-2025/internal/rotation"
 
 func Password(ss []string) (int, error) {
 	p, d := 0, 50
