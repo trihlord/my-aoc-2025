@@ -44,6 +44,11 @@ func TestPassword(t *testing.T) {
 			in:   "example_6.txt",
 			out:  6,
 		},
+		{
+			name: "input",
+			in:   "input.txt",
+			out:  6907,
+		},
 	}
 
 	for _, test := range tests {
