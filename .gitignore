@@ -1,1 +1,5 @@
+# Cargo
+/target
+
+# Private test data
 input.txt
