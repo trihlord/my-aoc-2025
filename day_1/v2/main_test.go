@@ -15,14 +15,34 @@ func TestPassword(t *testing.T) {
 		out  int
 	}{
 		{
-			name: "example",
-			in:   "example.txt",
-			out:  6,
+			name: "example 1",
+			in:   "example_1.txt",
+			out:  1,
 		},
 		{
-			name: "input",
-			in:   "input.txt",
-			out:  6913,
+			name: "example 2",
+			in:   "example_2.txt",
+			out:  2,
+		},
+		{
+			name: "example 3",
+			in:   "example_3.txt",
+			out:  3,
+		},
+		{
+			name: "example 4",
+			in:   "example_4.txt",
+			out:  4,
+		},
+		{
+			name: "example 5",
+			in:   "example_5.txt",
+			out:  5,
+		},
+		{
+			name: "example 6",
+			in:   "example_6.txt",
+			out:  6,
 		},
 	}
 

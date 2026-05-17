@@ -11,14 +11,21 @@ func Password(ss []string) (int, error) {
 			return 0, err
 		}
 
-		w := (d + r) / 100
-		if w < 0 {
-			w *= -1
+		var tp, td int
+		if td = d + r; td < 0 {
+			if d != 0 {
+				tp++
+			}
+			td *= -1
+		} else if td == 0 {
+			tp++
 		}
+		tp += td / 100
 
+		// TODO: td == 0 ?
 		d = ((d+r)%100 + 100) % 100
 
-		p += w
+		p += tp
 	}
 
 	return p, nil
