@@ -1,4 +1,4 @@
-pub fn password(document: &str) -> i32 {
+pub fn password(document: &str) -> usize {
     document
         .lines()
         .map(|s| {
@@ -9,27 +9,33 @@ pub fn password(document: &str) -> i32 {
                 _ => panic!(),
             }
         })
-        .sum()
+        .scan(50, |state, x| {
+            *state = (*state + x).rem_euclid(100);
+            Some(*state)
+        })
+        .filter(|x| *x == 0)
+        .count()
 }
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
+
     use super::*;
 
     #[test]
-    fn it_works() {
-        let result = password(
-            r#"L68
-L30
-R48
-L5
-R60
-L55
-L1
-L99
-R14
-L82"#,
-        );
+    fn example() {
+        let document =
+            fs::read_to_string("tests_data/example.txt").expect("Missing example test data");
+        let result = password(&document);
         assert_eq!(result, 3);
+    }
+
+    #[test]
+    fn input() {
+        let document =
+            fs::read_to_string("tests_data/input.txt").expect("Missing input test data");
+        let result = password(&document);
+        assert_eq!(result, 1182)
     }
 }
