@@ -51,17 +51,18 @@ pub mod v2 {
                     _ => panic!(),
                 }
             })
-            .fold((50, 0), |acc, x| {
-                (
-                    (acc.0 + x).rem_euclid(100),
-                    if acc.0 == 0 {
-                        acc.1
-                    } else {
-                        acc.1
-                            + (acc.0 + x).div_euclid(100).abs()
-                            + if acc.0 + x == 0 { 1 } else { 0 }
-                    },
-                )
+            .fold((50, 0), |(d, p), r| {
+                let td = d + r;
+
+                let tp = if td < 0 {
+                    if d != 0 { 1 } else { 0 }
+                } else if td == 0 {
+                    1
+                } else {
+                    0
+                };
+
+                (td.rem_euclid(100), p + tp + td.abs().div_euclid(100))
             })
             .1
     }
