@@ -1,3 +1,3 @@
-module my-aoc-2025/day-1
+module github.com/trihlord/my-aoc-2025/day_1
 
 go 1.25.5

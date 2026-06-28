@@ -1,3 +1,3 @@
-module my-aoc-2025/internal/file
+module github.com/trihlord/my-aoc-2025/internal/file
 
 go 1.25.5
