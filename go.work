@@ -1,8 +1,9 @@
-go 1.25.5
+go 1.26.4
 
 use (
 	./day_1
 	./day_1/v2
+	./day_2
 	./internal/file
 	./internal/rotation
 )
