@@ -36,7 +36,7 @@ func newIdRange(s string) (*idRange, error) {
 func scanIdRanges(data []byte, atEOF bool) (advance int, token []byte, err error) {
 	for i := range data {
 		if data[i] == ',' {
-			return i + 1, bytes.TrimSpace(data[:i]), nil
+			return i + 1, data[:i], nil
 		}
 	}
 	if atEOF {
