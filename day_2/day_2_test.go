@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test(t *testing.T) {
+func TestSumInvalidIdRanges(t *testing.T) {
 	t.Parallel()
 	testCases := []struct {
 		desc string
@@ -20,7 +20,7 @@ func Test(t *testing.T) {
 		{
 			desc: "input",
 			in:   "input.txt",
-			out:  0,
+			out:  43952536386,
 		},
 	}
 	for _, tC := range testCases {
