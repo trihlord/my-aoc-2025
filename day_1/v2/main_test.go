@@ -56,9 +56,12 @@ func TestPassword(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 
-			lines, err := file.ReadLines(filepath.Join("testdata", test.in))
-			if err != nil {
-				t.Fatal(err)
+			lines := []string{}
+			for line, err := range file.ReadLines(filepath.Join("testdata", test.in)) {
+				if err != nil {
+					t.Fatal(err)
+				}
+				lines = append(lines, line)
 			}
 
 			password, err := Password(lines)

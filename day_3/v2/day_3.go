@@ -1,31 +1,10 @@
 package day3
 
 import (
-	"bufio"
-	"iter"
-	"os"
 	"strconv"
-)
 
-func readLines(fileName string) iter.Seq2[string, error] {
-	return func(yield func(string, error) bool) {
-		file, err := os.Open(fileName)
-		if err != nil {
-			yield("", err)
-			return
-		}
-		defer file.Close()
-		scanner := bufio.NewScanner(file)
-		for scanner.Scan() {
-			if !yield(scanner.Text(), nil) {
-				return
-			}
-		}
-		if err := scanner.Err(); err != nil {
-			yield("", err)
-		}
-	}
-}
+	"github.com/trihlord/myaoc2025/internal/file"
+)
 
 func SumMaximumTerm(line string) (int, error) {
 	dec, dig := 0, 0
@@ -56,7 +35,7 @@ func SumMaximumTerm(line string) (int, error) {
 
 func SumMaximum(fileName string) (int, error) {
 	sum := 0
-	for line, err := range readLines(fileName) {
+	for line, err := range file.ReadLines(fileName) {
 		if err != nil {
 			return 0, err
 		}

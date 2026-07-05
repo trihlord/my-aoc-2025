@@ -2,21 +2,26 @@ package file
 
 import (
 	"bufio"
+	"iter"
 	"os"
 )
 
-func ReadLines(path string) ([]string, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
+func ReadLines(name string) iter.Seq2[string, error] {
+	return func(yield func(string, error) bool) {
+		file, err := os.Open(name)
+		if err != nil {
+			yield("", err)
+			return
+		}
+		defer file.Close()
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			if !yield(scanner.Text(), nil) {
+				return
+			}
+		}
+		if err := scanner.Err(); err != nil {
+			yield("", err)
+		}
 	}
-	defer file.Close()
-
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-
-	return lines, scanner.Err()
 }
