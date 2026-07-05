@@ -15,22 +15,22 @@ func TestSumMaximumTerm(t *testing.T) {
 		{
 			name: "first",
 			in:   "987654321111111",
-			out:  98,
+			out:  987654321111,
 		},
 		{
 			name: "second",
 			in:   "811111111111119",
-			out:  89,
+			out:  811111111119,
 		},
 		{
 			name: "third",
 			in:   "234234234234278",
-			out:  78,
+			out:  434234234278,
 		},
 		{
 			name: "fourth",
 			in:   "818181911112111",
-			out:  92,
+			out:  888911112111,
 		},
 	}
 	for _, tC := range testCases {
@@ -57,12 +57,12 @@ func TestSumMaximum(t *testing.T) {
 		{
 			name: "example",
 			in:   "example.txt",
-			out:  357,
+			out:  3121910778619,
 		},
 		{
 			name: "input",
 			in:   "input.txt",
-			out:  17343,
+			out:  0, // TODO: calculate
 		},
 	}
 	for _, tC := range testCases {
