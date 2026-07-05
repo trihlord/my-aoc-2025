@@ -34,7 +34,6 @@ func SumMaximumTerm(line string) (int, error) {
 		if err != nil {
 			return 0, err
 		}
-		// dec 8 dig 9 i 2
 		if i > dig {
 			if dec > dig {
 				dig = i
