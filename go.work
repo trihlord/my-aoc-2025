@@ -5,6 +5,7 @@ use (
 	./day_1/v2
 	./day_2
 	./day_2/v2
+	./internal/digits
 	./internal/file
 	./internal/rotation
 )
