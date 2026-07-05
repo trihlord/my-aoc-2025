@@ -20,8 +20,33 @@ func TestIsRepeated(t *testing.T) {
 			out:  true,
 		},
 		{
-			name: "is repeated digits twice",
+			name: "is repeated two digits twice",
+			in:   1010,
+			out:  true,
+		},
+		{
+			name: "is repeated five digits twice",
 			in:   1188511885,
+			out:  true,
+		},
+		{
+			name: "is repeated three digits twice",
+			in:   222222,
+			out:  true,
+		},
+		{
+			name: "is repeated four digits twice",
+			in:   38593859,
+			out:  true,
+		},
+		{
+			name: "is repeated two digits thrice",
+			in:   565656,
+			out:  true,
+		},
+		{
+			name: "is repeated tree digits thrice",
+			in:   824824824,
 			out:  true,
 		},
 		{
