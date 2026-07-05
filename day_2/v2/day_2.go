@@ -1,15 +1,12 @@
 package day2
 
 import (
-	"bufio"
-	"bytes"
 	"errors"
-	"iter"
-	"os"
 	"strconv"
 	"strings"
 
 	"github.com/trihlord/myaoc2025/internal/digits"
+	"github.com/trihlord/myaoc2025/internal/file"
 )
 
 var errMultipleHyphens = errors.New("multiple hyphens")
@@ -35,47 +32,13 @@ func newIdRange(s string) (*idRange, error) {
 	return &idRange{begin, end}, nil
 }
 
-func scanIdRanges(data []byte, atEOF bool) (advance int, token []byte, err error) {
-	for i := range data {
-		if data[i] == ',' {
-			return i + 1, data[:i], nil
-		}
-	}
-	if atEOF {
-		return len(data), bytes.TrimSpace(data), nil
-	}
-	return 0, nil, nil
-}
-
-func readIdRanges(fileName string) iter.Seq2[*idRange, error] {
-	return func(yield func(*idRange, error) bool) {
-		file, err := os.Open(fileName)
-		if err != nil {
-			yield(nil, err)
-			return
-		}
-		defer file.Close()
-		scanner := bufio.NewScanner(file)
-		scanner.Split(scanIdRanges)
-		for scanner.Scan() {
-			idRange, err := newIdRange(scanner.Text())
-			if err != nil {
-				yield(nil, err)
-				return
-			}
-			if !yield(idRange, nil) {
-				return
-			}
-		}
-		if err := scanner.Err(); err != nil {
-			yield(nil, err)
-		}
-	}
-}
-
 func SumInvalidIdRanges(fileName string) (int, error) {
 	sum := 0
-	for idRange, err := range readIdRanges(fileName) {
+	for line, err := range file.ReadCommas(fileName) {
+		if err != nil {
+			return 0, err
+		}
+		idRange, err := newIdRange(line)
 		if err != nil {
 			return 0, err
 		}
