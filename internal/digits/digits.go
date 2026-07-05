@@ -5,14 +5,21 @@ import "strconv"
 func IsRepeated(x int) bool {
 	str := strconv.Itoa(x)
 	l := len(str)
-	var sub string
-	for i := l / 2; i >= 1; i-- {
-		for j := 0; j < l-i; j++ {
-			if j > 0 {
-				//
+	for i, c := l/2, 0; i >= 1; i, c = i-1, 0 {
+		for j := i; j <= l-i; j += i {
+			if str[:i] == str[j:j+i] {
+				c++
 			}
-			sub = str[j : j+i]
+		}
+		if c == l/i-1 {
+			return true
 		}
 	}
 	return false
+}
+
+func IsRepeatedOnce(x int) bool {
+	s := strconv.Itoa(x)
+	l := len(s)
+	return s[l/2:] == s[:l/2]
 }

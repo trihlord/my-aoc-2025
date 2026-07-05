@@ -10,22 +10,22 @@ func TestIsRepeated(t *testing.T) {
 		out  bool
 	}{
 		{
-			name: "",
+			name: "is repeated single digit twice",
 			in:   11,
 			out:  true,
 		},
 		{
-			name: "",
+			name: "is repeated single digit thrice",
 			in:   111,
 			out:  true,
 		},
 		{
-			name: "",
+			name: "is repeated digits twice",
 			in:   1188511885,
 			out:  true,
 		},
 		{
-			name: "",
+			name: "is repeated two digits fives",
 			in:   2121212121,
 			out:  true,
 		},
@@ -34,7 +34,7 @@ func TestIsRepeated(t *testing.T) {
 		t.Run(tC.name, func(t *testing.T) {
 			t.Parallel()
 			if got, want := IsRepeated(tC.in), tC.out; got != want {
-				t.Fatalf("got %d, want %d", got, want)
+				t.Fatalf("got %t, want %t", got, want)
 			}
 		})
 	}

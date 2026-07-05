@@ -8,6 +8,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/trihlord/myaoc2025/internal/digits"
 )
 
 var errMultipleHyphens = errors.New("multiple hyphens")
@@ -71,12 +73,6 @@ func readIdRanges(fileName string) iter.Seq2[*idRange, error] {
 	}
 }
 
-func isInvalidId(id int) bool {
-	s := strconv.Itoa(id)
-	l := len(s)
-	return s[l/2:] == s[:l/2]
-}
-
 func SumInvalidIdRanges(fileName string) (int, error) {
 	sum := 0
 	for idRange, err := range readIdRanges(fileName) {
@@ -84,7 +80,7 @@ func SumInvalidIdRanges(fileName string) (int, error) {
 			return 0, err
 		}
 		for id := idRange.begin; id <= idRange.end; id++ {
-			if isInvalidId(id) {
+			if digits.IsRepeatedOnce(id) {
 				sum += id
 			}
 		}
