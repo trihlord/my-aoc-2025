@@ -1,6 +1,6 @@
 package main
 
-import "github.com/trihlord/my-aoc-2025/internal/rotation"
+import "github.com/trihlord/myaoc2025/internal/rotation"
 
 func Password(ss []string) (int, error) {
 	p, d := 0, 50

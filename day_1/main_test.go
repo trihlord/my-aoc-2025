@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/trihlord/my-aoc-2025/internal/file"
+	"github.com/trihlord/myaoc2025/internal/file"
 )
 
 func TestPassword(t *testing.T) {

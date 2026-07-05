@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/trihlord/my-aoc-2025/internal/digits"
+	"github.com/trihlord/myaoc2025/internal/digits"
 )
 
 var errMultipleHyphens = errors.New("multiple hyphens")
