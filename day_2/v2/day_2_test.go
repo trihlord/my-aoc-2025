@@ -20,7 +20,7 @@ func TestSumInvalidIdRanges(t *testing.T) {
 		{
 			desc: "input",
 			in:   "input.txt",
-			out:  0,
+			out:  54486209192,
 		},
 	}
 	for _, tC := range testCases {

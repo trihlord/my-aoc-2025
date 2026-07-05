@@ -11,7 +11,7 @@ func IsRepeated(x int) bool {
 				c++
 			}
 		}
-		if c == l/i-1 {
+		if c == l/i-1 && l%i == 0 {
 			return true
 		}
 	}

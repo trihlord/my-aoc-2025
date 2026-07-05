@@ -54,6 +54,11 @@ func TestIsRepeated(t *testing.T) {
 			in:   2121212121,
 			out:  true,
 		},
+		{
+			name: "is not repeated tree digits",
+			in:   12727127271,
+			out:  false,
+		},
 	}
 	for _, tC := range testCases {
 		t.Run(tC.name, func(t *testing.T) {
