@@ -2,9 +2,9 @@ package sequence
 
 import "strconv"
 
-func Max(s string, c int) (int, error) {
-	if c > len(s) {
-		return strconv.Atoi(s)
+func Max(str string, cap int) (int, error) {
+	if len(str) < cap {
+		return strconv.Atoi(str)
 	}
 	return 0, nil
 }
