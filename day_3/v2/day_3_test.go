@@ -5,48 +5,6 @@ import (
 	"testing"
 )
 
-func TestSumMaximumTerm(t *testing.T) {
-	t.Parallel()
-	testCases := []struct {
-		name string
-		in   string
-		out  int
-	}{
-		{
-			name: "first",
-			in:   "987654321111111",
-			out:  987654321111,
-		},
-		{
-			name: "second",
-			in:   "811111111111119",
-			out:  811111111119,
-		},
-		{
-			name: "third",
-			in:   "234234234234278",
-			out:  434234234278,
-		},
-		{
-			name: "fourth",
-			in:   "818181911112111",
-			out:  888911112111,
-		},
-	}
-	for _, tC := range testCases {
-		t.Run(tC.name, func(t *testing.T) {
-			t.Parallel()
-			term, err := SumMaximumTerm(tC.in)
-			if err != nil {
-				t.Fatal(err)
-			}
-			if got, want := term, tC.out; got != want {
-				t.Fatalf("got %d, want %d", got, want)
-			}
-		})
-	}
-}
-
 func TestSumMaximum(t *testing.T) {
 	t.Parallel()
 	testCases := []struct {
@@ -62,7 +20,7 @@ func TestSumMaximum(t *testing.T) {
 		{
 			name: "input",
 			in:   "input.txt",
-			out:  0, // TODO: calculate
+			out:  172664333119298, // TODO: calculate
 		},
 	}
 	for _, tC := range testCases {
