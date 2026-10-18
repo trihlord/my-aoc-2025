@@ -1,4 +1,4 @@
-go 1.27.0
+go 1.27.2
 
 use (
 	./day_1
@@ -8,6 +8,7 @@ use (
 	./day_3
 	./day_3/v2
 	./day_4
+	./day_4/v2
 	./internal/digits
 	./internal/file
 	./internal/rotation
