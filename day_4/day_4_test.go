@@ -17,12 +17,11 @@ func TestCountRollsForkliftable(t *testing.T) {
 			in:   "example.txt",
 			out:  13,
 		},
-		// TODO: find valid output
-		// {
-		// 	name: "input",
-		// 	in:   "input.txt",
-		// 	out:  0,
-		// },
+		{
+			name: "input",
+			in:   "input.txt",
+			out:  1349,
+		},
 	}
 	for _, tC := range testCases {
 		t.Run(tC.name, func(t *testing.T) {
