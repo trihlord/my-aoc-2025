@@ -11,60 +11,59 @@ const (
 	byteAt  byte = '@'
 )
 
-var errInvalidByte = errors.New("invalid byte")
+var (
+	errInvalidByte = errors.New("invalid byte")
+	byteOffsets    = [][2]int{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}
+)
 
 func isInvalidByte(b byte) bool {
 	return b != byteDot && b != byteAt
 }
 
-func isCountableByte(bb []byte, d int, x int, y int) bool {
-	c := 0
-	if bb[len(bb)-1] == byteDot {
+func readRollBytes(filename string) ([]byte, int, error) {
+	j, l := 0, 0
+	bb := []byte{}
+	for line, err := range file.ReadLines(filename) {
+		if err != nil {
+			return nil, 0, err
+		}
+		if j == 0 {
+			l = len(line)
+		}
+		for _, b := range []byte(line) {
+			if isInvalidByte(b) {
+				return nil, 0, errInvalidByte
+			}
+			bb = append(bb, b)
+		}
+		j++
+	}
+	return bb, l, nil
+}
+
+func isForkliftableByte(bb []byte, l, i int) bool {
+	c, x, y, mx, my := 0, i%l, i/l, l, len(bb)/l
+	if bb[i] != byteAt {
 		return false
 	}
-	if y > 1 && x > 1 && bb[d*(y-2)+x-2] == byteAt {
-		c++
-	}
-	if y > 1 && x > 0 && bb[d*(y-2)+x-1] == byteAt {
-		c++
-	}
-	if y > 1 && bb[d*(y-2)+x] == byteAt {
-		c++
-	}
-	if y > 0 && x > 1 && bb[d*(y-1)+x-2] == byteAt {
-		c++
-	}
-	if y > 0 && x > 0 && bb[d*(y-1)+x-1] == byteAt {
-		c++
-	}
-	if y > 0 && bb[d*(y-1)+x] == byteAt {
-		c++
-	}
-	if x > 1 && bb[d*y+x-2] == byteAt {
-		c++
-	}
-	if x > 0 && bb[d*y+x-1] == byteAt {
-		c++
+	for _, o := range byteOffsets {
+		if ox, oy := x+o[0], y+o[1]; oy >= 0 && oy < my && ox >= 0 && ox < mx && bb[oy*l+ox] == byteAt {
+			c++
+		}
 	}
 	return c < 4
 }
 
 func CountRollsForkliftable(filename string) (int, error) {
-	bb := []byte{}
-	c, i := 0, 0
-	for line, err := range file.ReadLines(filename) {
-		if err != nil {
-			return 0, nil
+	c, l := 0, 0
+	bb, l, err := readRollBytes(filename)
+	if err != nil {
+		return 0, err
+	}
+	for i := range bb {
+		if isForkliftableByte(bb, l, i) {
+			c++
 		}
-		for j, b := range []byte(line) {
-			if isInvalidByte(b) {
-				return 0, errInvalidByte
-			}
-			if bb = append(bb, b); isCountableByte(bb, len(line), j, i) {
-				c++
-			}
-		}
-		i++
 	}
 	return c, nil
 }
