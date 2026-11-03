@@ -1,28 +1,15 @@
 package day4
 
 import (
-	"errors"
-
 	"github.com/trihlord/myaoc2025/internal/file"
+	"github.com/trihlord/myaoc2025/internal/rolls"
 )
 
-const (
-	byteDot byte = '.'
-	byteAt  byte = '@'
-)
+var byteOffsets = [][2]int{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}
 
-var (
-	errInvalidByte = errors.New("invalid byte")
-	byteOffsets    = [][2]int{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}
-)
-
-func isInvalidByte(b byte) bool {
-	return b != byteDot && b != byteAt
-}
-
-func readRollBytes(filename string) ([]byte, int, error) {
+func readRolls(filename string) ([]rolls.Roll, int, error) {
 	j, l := 0, 0
-	bb := []byte{}
+	rr := []rolls.Roll{}
 	for line, err := range file.ReadLines(filename) {
 		if err != nil {
 			return nil, 0, err
@@ -31,23 +18,20 @@ func readRollBytes(filename string) ([]byte, int, error) {
 			l = len(line)
 		}
 		for _, b := range []byte(line) {
-			if isInvalidByte(b) {
-				return nil, 0, errInvalidByte
-			}
-			bb = append(bb, b)
+			rr = append(rr, rolls.New(b))
 		}
 		j++
 	}
-	return bb, l, nil
+	return rr, l, nil
 }
 
-func isForkliftableByte(bb []byte, l, i int) bool {
-	c, x, y, mx, my := 0, i%l, i/l, l, len(bb)/l
-	if bb[i] != byteAt {
+func isForkliftableByte(rr []rolls.Roll, l, i int) bool {
+	c, x, y, mx, my := 0, i%l, i/l, l, len(rr)/l
+	if !rr[i].IsForkliftable() {
 		return false
 	}
 	for _, o := range byteOffsets {
-		if ox, oy := x+o[0], y+o[1]; oy >= 0 && oy < my && ox >= 0 && ox < mx && bb[oy*l+ox] == byteAt {
+		if ox, oy := x+o[0], y+o[1]; oy >= 0 && oy < my && ox >= 0 && ox < mx && rr[oy*l+ox].IsForkliftable() {
 			c++
 		}
 	}
@@ -55,13 +39,13 @@ func isForkliftableByte(bb []byte, l, i int) bool {
 }
 
 func CountRollsForkliftable(filename string) (int, error) {
-	c, l := 0, 0
-	bb, l, err := readRollBytes(filename)
+	c := 0
+	rr, l, err := readRolls(filename)
 	if err != nil {
 		return 0, err
 	}
-	for i := range bb {
-		if isForkliftableByte(bb, l, i) {
+	for i := range rr {
+		if isForkliftableByte(rr, l, i) {
 			c++
 		}
 	}
