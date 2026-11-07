@@ -18,14 +18,14 @@ func readRolls(filename string) ([]rolls.Roll, int, error) {
 			l = len(line)
 		}
 		for _, b := range []byte(line) {
-			rr = append(rr, rolls.New(b))
+			rr = append(rr, rolls.Roll(b))
 		}
 		j++
 	}
 	return rr, l, nil
 }
 
-func isForkliftableByte(rr []rolls.Roll, l, i int) bool {
+func isForkliftableRoll(rr []rolls.Roll, l, i int) bool {
 	c, x, y, mx, my := 0, i%l, i/l, l, len(rr)/l
 	if !rr[i].IsForkliftable() {
 		return false
@@ -45,7 +45,7 @@ func CountRollsForkliftable(filename string) (int, error) {
 		return 0, err
 	}
 	for i := range rr {
-		if isForkliftableByte(rr, l, i) {
+		if isForkliftableRoll(rr, l, i) {
 			c++
 		}
 	}

@@ -21,7 +21,7 @@ func TestIsForkliftable(t *testing.T) {
 	}
 	for _, tC := range testCases {
 		t.Run(tC.name, func(t *testing.T) {
-			if got, want := New(tC.in).IsForkliftable(), tC.out; got != want {
+			if got, want := Roll(tC.in).IsForkliftable(), tC.out; got != want {
 				t.Fatalf("got %t, want %t", got, want)
 			}
 		})
