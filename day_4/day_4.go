@@ -5,32 +5,30 @@ import (
 	"github.com/trihlord/myaoc2025/internal/rolls"
 )
 
-func newRollNeighbours(filename string) (rolls.RollNeighbours, int, error) {
-	j, l := 0, 0
-	rns := rolls.RollNeighbours{}
+func newRollWarehouse(filename string) (*rolls.RollWarehouse, error) {
+	var rw *rolls.RollWarehouse
 	for line, err := range file.ReadLines(filename) {
 		if err != nil {
-			return nil, 0, err
+			return nil, err
 		}
-		if j == 0 {
-			l = len(line)
+		if rw == nil {
+			rw = rolls.NewRollWarehouse(len(line))
 		}
 		for _, b := range []byte(line) {
-			rns.Append(rolls.Roll(b))
+			rw.Append(rolls.Roll(b))
 		}
-		j++
 	}
-	return rns, l, nil
+	return rw, nil
 }
 
 func CountRollsForkliftable(filename string) (int, error) {
 	c := 0
-	rns, l, err := newRollNeighbours(filename)
+	rw, err := newRollWarehouse(filename)
 	if err != nil {
 		return 0, err
 	}
-	for i := range rns {
-		if rns.IsForkliftableAt(l, i) {
+	for i := range rw.Len() {
+		if rw.IsForkliftableAt(i) {
 			c++
 		}
 	}

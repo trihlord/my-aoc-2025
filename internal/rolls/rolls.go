@@ -2,7 +2,7 @@ package rolls
 
 const forkliftableRoll = '@'
 
-var forkliftableRollOffsets = [][2]int{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}
+var precedingRollNeighbourOffsets = [][2]int{{-1, 0}, {-1, -1}, {1, -1}, {0, -1}}
 
 type Roll byte
 
@@ -11,23 +11,54 @@ func (r Roll) IsForkliftable() bool {
 }
 
 type rollNeighbour struct {
-	r  Roll
-	ns []Roll
+	roll  Roll
+	rolls []Roll
 }
 
-type RollNeighbours []rollNeighbour
-
-func (rns *RollNeighbours) Append(r Roll) {
-	*rns = append(*rns, rollNeighbour{r: r})
+type RollWarehouse struct {
+	width          int
+	rollNeighbours []rollNeighbour
 }
 
-func (rns *RollNeighbours) IsForkliftableAt(l, i int) bool {
-	c, x, y, mx, my := 0, i%l, i/l, l, len(*rns)/l
-	if !(*rns)[i].r.IsForkliftable() {
+func NewRollWarehouse(width int) *RollWarehouse {
+	return &RollWarehouse{width: width}
+}
+
+func (rw RollWarehouse) Len() int {
+	return len(rw.rollNeighbours)
+}
+
+func (rw *RollWarehouse) precedingRollNeighboursAt(i int) []*rollNeighbour {
+	var rns []*rollNeighbour
+	x, y := i%rw.width, i/rw.width
+	for _, o := range precedingRollNeighbourOffsets {
+		if ox, oy := x+o[0], y+o[1]; ox >= 0 && ox < rw.width && oy >= 0 {
+			if j := ox + oy*rw.width; j >= 0 && j < i {
+				rns = append(rns, &rw.rollNeighbours[j])
+			}
+		}
+	}
+	return rns
+}
+
+func (rw *RollWarehouse) Append(roll Roll) {
+	rn := rollNeighbour{roll: roll}
+	rw.rollNeighbours = append(rw.rollNeighbours, rn)
+	l := len(rw.rollNeighbours) - 1
+	for _, prn := range rw.precedingRollNeighboursAt(l) {
+		rw.rollNeighbours[l].rolls = append(rw.rollNeighbours[l].rolls, prn.roll)
+		prn.rolls = append(prn.rolls, roll)
+	}
+}
+
+func (rw RollWarehouse) IsForkliftableAt(i int) bool {
+	rn := rw.rollNeighbours[i]
+	if !rn.roll.IsForkliftable() {
 		return false
 	}
-	for _, o := range forkliftableRollOffsets {
-		if ox, oy := x+o[0], y+o[1]; oy >= 0 && oy < my && ox >= 0 && ox < mx && (*rns)[oy*l+ox].r.IsForkliftable() {
+	c := 0
+	for _, r := range rn.rolls {
+		if r.IsForkliftable() {
 			c++
 		}
 	}
